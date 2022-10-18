@@ -8,7 +8,8 @@ import StartScreen from './src/views/screens/StartScreen'
 import DetailsScreen from './src/views/screens/DetailsScreen'
 import SignInScreen from './src/views/screens/SignInScreen'
 import SignUpScreen from './src/views/screens/SignUpScreen'
-
+import TourScreen from './src/views/screens/TourScreen'
+import FavoriteScreen from './src/views/screens/FavoriteScreen'
 
 // import TabNavigator from './src/root/TabNavigator'
 
@@ -59,6 +60,9 @@ function App() {
         <Stack.Screen name='StartScreen' component={StartScreen} />
         <Stack.Screen name='HomeScreen' component={HomeScreen} />
         <Stack.Screen name='DetailsScreen' component={DetailsScreen} />
+        <Stack.Screen name='TourScreen' component={TourScreen} />
+        <Stack.Screen name='FavoriteScreen' component={FavoriteScreen} />
+
         {/* <Stack.Screen name='Tabs' component={Tabs} /> */}
         {/* <Stack.Screen name='SignIn' component={SignInScreen} /> */}
         {/* <Stack.Screen name='SignUp' component={SignUpScreen} /> */}

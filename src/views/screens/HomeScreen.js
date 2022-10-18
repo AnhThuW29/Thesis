@@ -4,29 +4,63 @@ import { SafeAreaView, TextInput, StyleSheet, StatusBar, ScrollView, View, Text,
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import COLORS from '../../consts/colors'
 import places from '../../consts/places'
+import CustomIcon from '../../consts/CustomIcon'
+
 import DetailsScreen from '../screens/DetailsScreen'
 import SignUpScreen from '../screens/SignUpScreen'
+import TourScreen from './TourScreen'
+import FavoriteScreen from './FavoriteScreen'
 
 const { width } = Dimensions.get('screen')
 
 const HomeScreen = ({ navigation }) => {
 
-    const CategoryIcons = [
-        <Icon name='flight' size={25} color={COLORS.primary} />,
-        <Icon name='beach-access' size={25} color={COLORS.primary} />,
-        <Icon name='near-me' size={25} color={COLORS.primary} />,
-        <Icon name='place' size={25} color={COLORS.primary} />,
-    ]
+    // const CategoryIcons = [
+    //     <Icon name='tour' size={25} color={COLORS.primary} />,
+    //     <Icon name='beach-access' size={25} color={COLORS.primary} />,
+    //     <Icon name='favorite' size={25} color={COLORS.primary} />,
+    //     <Icon name='place' size={25} color={COLORS.primary} />,
+    // ]
+
+    // const ListCategories = (item) => {
+    //     return (
+    //         <View style={style.categoryContainer}>
+    //             {CategoryIcons.map((icon, index) => (
+    //                 <View key={index} style={style.iconContainer}>
+    //                     {icon}
+    //                 </View>
+    //             ))}
+    //         </View>
+    //     )
+    // }
 
     const ListCategories = () => {
         return (
             <View style={style.categoryContainer}>
-                {CategoryIcons.map((icon, index) => (
-                    <View key={index} style={style.iconContainer}>{icon}</View>
-                ))}
+                <CustomIcon 
+                    iconName='tour'
+                    text='Tour'
+                    onPress={() => navigation.navigate('TourScreen')}
+                />
+                <CustomIcon 
+                    iconName='beach-access'
+                    text='Khách sạn'
+                    //onPress={() => navigation.navigate('TourScreen')}
+                />
+                <CustomIcon 
+                    iconName='favorite'
+                    text='Yêu thích'
+                    onPress={() => navigation.navigate('FavoriteScreen')}
+                />
+                <CustomIcon 
+                    iconName='place'
+                    text='Bản đồ'
+                    //onPress={() => navigation.navigate('FavoriteScreen')}
+                />
             </View>
         )
     }
+
 
     const Card = ({ place }) => {
         return (
@@ -208,12 +242,16 @@ const style = StyleSheet.create({
         justifyContent: 'space-between'
     },
     iconContainer: {
-        height: 60,
-        width: 60,
+        height: 70,
+        width: 70,
         backgroundColor: COLORS.secondary,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10
+    },
+    textIcon: {
+        fontSize: 10,
+        paddingTop: 5,
     },
     sectionTitle: {
         marginHorizontal: 20,

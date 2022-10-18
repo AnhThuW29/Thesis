@@ -1,4 +1,3 @@
-import { Collapse } from 'native-base'
 import React from 'react'
 import { Text, View, SafeAreaView, StyleSheet, Button, Pressable } from 'react-native'
 import COLORS from '../consts/colors'
