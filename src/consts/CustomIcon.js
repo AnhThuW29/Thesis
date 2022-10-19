@@ -8,7 +8,7 @@ const CustomIcon = ({ iconName, onPress, text }) => {
         <TouchableOpacity
             onPress={onPress}
             style={styles.iconContainer}>
-                <Icon name={iconName} size={25} color={COLORS.primary}/>
+                <Icon name={iconName} size={25} color={COLORS.orange}/>
                 <Text style={styles.textIcon}>{text}</Text>
         </TouchableOpacity>
     )

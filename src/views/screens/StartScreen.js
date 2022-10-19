@@ -8,15 +8,15 @@ const StartScreen = ({ navigation }) => {
         <View style={{ flex: 1 }}>
             <ImageBackground
                 style={{ flex: 1 }}
-                source={require('../../assets/onboardImage.jpg')}>
+                source={require('../../assets/poster.jpg')}>
                 <View style={style.details}>
-                    <Text style={{color: COLORS.white, fontSize: 35, fontWeight: 'bold'}}>
-                        Discover
+                    <Text style={{color: COLORS.white, fontSize: 30, fontWeight: 'bold'}}>
+                        Khám phá Việt Nam
                     </Text>
-                    <Text style={{color: COLORS.white, fontSize: 35, fontWeight: 'bold'}}>
-                        world with us
+                    <Text style={{color: COLORS.white, fontSize: 30, fontWeight: 'bold'}}>
+                         cùng chúng tôi.
                     </Text>
-                    <Text style={{color: COLORS.white, lineHeight: 25, marginTop: 15}}>
+                    <Text style={{color: COLORS.black, lineHeight: 25, marginTop: 15}}>
                         Đăng nhập hoặc đăng ký để có thêm nhiều ưu đãi đặc biệt.
                     </Text>
 
@@ -37,16 +37,16 @@ export default StartScreen
 
 const style = StyleSheet.create({
     details: {
-        height: '50%',
-        bottom: 0,
+        height: '40%',
+        bottom: -10,
         position: 'absolute',
-        paddingHorizontal: 40,
+        paddingHorizontal: 30,
     },
     btn: {
         height: 50,
         width: 120,
         backgroundColor: COLORS.white,
-        marginTop: 20,
+        marginTop: 15,
         borderRadius: 7,
         justifyContent: 'center',
         alignItems: 'center'
