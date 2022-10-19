@@ -68,7 +68,15 @@ function HomeStackScreen() {
   )
 }
 
-function BottomScreen() {
+function LoginScreen() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='SignIn' component={SignInScreen} />
+    </Stack.Navigator>
+  )
+}
+
+function AccountScreen() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='SignIn' component={SignInScreen} />
@@ -85,10 +93,35 @@ function App() {
           tabBarStyle: { backgroundColor: COLORS.blue },
           tabBarInactiveTintColor: COLORS.primary,
           tabBarActiveTintColor: COLORS.orange,
-        }}>
+        }} >
 
-        <Tab.Screen name='Home' component={HomeStackScreen}/>
-        <Tab.Screen name='Me' component={BottomScreen} />
+        <Tab.Screen name='Đăng nhập' component={LoginScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => {
+              return (
+                <Icon name='account-circle' color={color} size={size} />
+              )
+            }
+          }}
+        />
+        <Tab.Screen name='Home' component={HomeStackScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => {
+              return (
+                <Icon name='home' color={color} size={size} />
+              )
+            }
+          }}
+        />
+        {/* <Tab.Screen name='Tôi' component={AccountScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => {
+              return (
+                <Icon name='account-circle' color={color} size={size} />
+              )
+            }
+          }}
+        /> */}
         {/* <Tab.Screen name='SignUp' component={SignUpScreen} /> */}
 
       </Tab.Navigator>

@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import COLORS from '../../consts/colors'
 import places from '../../consts/places'
 import CustomIcon from '../../consts/CustomIcon'
+// import Card from '../../components/card'
 
 import DetailsScreen from '../screens/DetailsScreen'
 import SignUpScreen from '../screens/SignUpScreen'
@@ -177,7 +178,7 @@ const HomeScreen = ({ navigation }) => {
 
                 <ListCategories />
 
-                <Text style={style.sectionTitle}>Địa điểm</Text>
+                <Text style={style.sectionTitle}>Địa điểm yêu thích</Text>
 
                 <View>
                     <FlatList

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Text, View, SafeAreaView, Image, StyleSheet, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import Logo from '../../assets/travelIcon.png'
+import Logo from '../../assets/orangeLogo.png'
 import CustomButton from '../../consts/CustomButton'
 import CustomInput from '../../consts/CustomInput'
 import SignUpScreen from '../screens/SignUpScreen'
