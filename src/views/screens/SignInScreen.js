@@ -7,67 +7,54 @@ import Logo from '../../assets/orangeLogo.png'
 import CustomButton from '../../consts/CustomButton'
 import CustomInput from '../../consts/CustomInput'
 import SignUpScreen from '../screens/SignUpScreen'
+import { isValidEmail, isValidObjectField, updateError } from '../../utils/methods'
+import client from '../../api/client'
+import { useLogin } from '../../context/LoginProvider'
+import { ErrorMessage } from 'formik'
 
-const SignInScreen = (props) => {
-    const [inputs, setInputs] = useState({
+
+const SignInScreen = () => {
+    const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
     })
 
-    const [errors, setErrors] = useState({})
-    const [loading, setLoading] = useState(false)
+    const { email, password } = userInfo
 
-    const validate = async () => {
-        Keyboard.dismiss()
-        let isValid = true
-        if (!inputs.email) {
-            handleError('Vui lòng nhập email', 'email')
-            isValid = false
-        }
-        if (!inputs.password) {
-            handleError('Vui lòng nhập mật khẩu', 'password')
-            isValid = false
-        }
-        if (isValid) {
-            login()
-        }
+    const [error, setError] = useState('')
+    const { setIsLoggedIn, setProfile } = useLogin()
+
+    const handleOnChangeText = (value, fieldName) => {
+        setUserInfo({ ...userInfo, [fieldName]: value })
     }
 
-    const login = () => {
-        setLoading(true)
-        setTimeout(async () => {
-            setLoading(false)
-            let userData = await AsyncStorage.getItem('userData')
-            if (userData) {
-                userData = JSON.parse(userData)
-                if (
-                    inputs.email == userData.email &&
-                    inputs.password == userData.password
-                ) {
-                    navigation.navigate('HomeScreen')
-                    AsyncStorage.setItem(
-                        'userData',
-                        JSON.stringify({ ...userData, loggedIn: true }),
-                    )
-                } else {
-                    Alert.alert('Error', 'Invalid Details')
+    const isValidForm = () => {
+        if (!isValidObjectField(userInfo))
+            return updateError('Điền vào ô trống', setError)
+
+        if (!isValidEmail(email))
+            return updateError('Email không đúng', setError)
+
+        // nữa nhớ check lại đk
+        if (!password.trim() || password.length < 8)
+            return updateError('Mật khẩu không đúng', setError)
+
+        return true
+    }
+
+    const onSignInPress = async () => {
+        if (isValidForm()) {
+            try {
+                const res = await client.post('/sign-in', { ...userInfo })
+
+                if (res.data.success) {
+                    setUserInfo({ email: '', password: '' })
+                    setIsLoggedIn(true)
                 }
-            } else {
-                Alert.alert('Error', 'Người dùng không tồn tại')
+            } catch (err) {
+                console.log('Error: ', err.message)
             }
-        }, 3000);
-    }
-
-    const handleOnchange = (text, input) => {
-        setInputs(prevState => ({ ...prevState, [input]: text }))
-    }
-
-    const handleError = (error, input) => {
-        setErrors(prevState => ({ ...prevState, [input]: error }))
-    }
-
-    const onSignInPress = () => {
-        console.log('Log in')
+        }
     }
 
     const onForgotPassword = () => {
@@ -81,7 +68,7 @@ const SignInScreen = (props) => {
     const onSignInEmail = () => {
         console.log('Email')
     }
-    
+
     const navigation = useNavigation()
     const onSignUp = () => {
         navigation.navigate('SignUpScreen')
@@ -101,28 +88,38 @@ const SignInScreen = (props) => {
                         <Image source={Logo} style={styles.logo} resizeMode={'contain'} />
                     </View>
 
+                    {error ?
+                        (<Text style={{ color: 'red', fontSize: 18, textAlign: 'center' }}>
+                            {error}
+                        </Text>)
+                        : null}
                     <View>
                         <CustomInput
-                            placeholder='Tài khoản'
+                            placeholder='Email'
                             iconName='account-circle'
-                            onChangeText={text => handleOnchange(text, 'email')}
-                            onFocus={() => handleError(null, 'email')}
-                            error={errors.email}
+                            onChangeText={value => handleOnChangeText(value, 'email')}
+                            autoCapitalize='none'
+                            value={email}
+                        // error={error.email}
                         />
                         <CustomInput
                             placeholder='Mật khẩu'
                             iconName='lock'
-                            onChangeText={text => handleOnchange(text, 'password')}
-                            onFocus={() => handleError(null, 'password')}
-                            error={errors.password}
+                            onChangeText={value => handleOnChangeText(value, 'password')}
                             password
+                            value={password}
+                        // error={error.password}
+
                         />
                     </View>
 
-                    <CustomButton
-                        text='Đăng nhập'
-                        onPress={onSignInPress}
-                        type='Primary' />
+                    <View style={{ alignItems: 'center' }}>
+                        <CustomButton
+                            text='Đăng nhập'
+                            onPress={onSignInPress}
+                            type='Primary'
+                            widthBtn='50%' />
+                    </View>
                     <CustomButton
                         text='Quên mật khẩu?'
                         onPress={onForgotPassword}

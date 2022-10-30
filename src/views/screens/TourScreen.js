@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const TourScreen = ({ navigation }) => {
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+        <SafeAreaView style={{ flex: 1, }}>
             <StatusBar translucent={false} backgroundColor={COLORS.white} />
             <View style={styles.header}>
                 <Icon name='arrow-back-ios' size={24} color={COLORS.white} onPress={navigation.goBack} />
@@ -20,8 +20,10 @@ const TourScreen = ({ navigation }) => {
                 />
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Text style={styles.sectionTitle}>Vị trí hiện tại của bạn: Ninh, Kiều</Text>
+                <Text style={styles.sectionTitle}>Vị trí hiện tại của bạn: Ninh Kiều</Text>
                 
+                <Text>Xu hướng</Text>
+                <Text>Tin khuyến mãi</Text>
                 <View>
 
                 </View>
@@ -64,6 +66,6 @@ const styles = StyleSheet.create({
     sectionTitle: {
         paddingVertical: 15,
         marginHorizontal: 20,
-        marginVertical: 30,
+        marginTop: 50,
     },
 })

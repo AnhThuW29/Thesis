@@ -1,0 +1,31 @@
+const express = require('express')
+const bodyParser = require('body-parser')
+const user = require('./models/user')
+require('dotenv').config()
+require('./config/db/index')    // connect to database
+const morgan = require('morgan')
+const userRouter = require('./routes/user')
+const postRouter = require('./routes/post')
+
+const app = express()
+const PORT = process.env.PORT
+
+//app.use(bodyParser.json())      // Lấy dữ liệu nhập vào ( như req.body )
+app.use(express.json())
+app.use(morgan('dev'))
+
+app.use(userRouter)
+app.use('/api/post',postRouter)
+
+app.use((err, req, res, next) => {
+    res.status(500).json({error: err.message})
+})
+
+app.get('/', (req, res ) => {
+    // res.send('Hello world!!!')
+    res.json({success: true, message: 'Welcome to backend zone!'})
+})
+
+
+
+app.listen(PORT, () => { console.log('Port is listening') })

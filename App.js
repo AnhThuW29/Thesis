@@ -1,93 +1,66 @@
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import COLORS from './src/consts/colors';
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import React, { useEffect } from 'react'
+import { NavigationContainer } from '@react-navigation/native'
 
-import HomeScreen from './src/views/screens/HomeScreen'
-import StartScreen from './src/views/screens/StartScreen'
-import DetailsScreen from './src/views/screens/DetailsScreen'
-import SignInScreen from './src/views/screens/SignInScreen'
-import SignUpScreen from './src/views/screens/SignUpScreen'
-import TourScreen from './src/views/screens/TourScreen'
-import FavoriteScreen from './src/views/screens/FavoriteScreen'
+import axios from 'axios'
+import MainNavigator from './src/navigations/MainNavigator'
+import LoginProvider from './src/context/LoginProvider'
 
-
-const Stack = createNativeStackNavigator()
-const Tab = createBottomTabNavigator()
-
+// const Stack = createNativeStackNavigator()
 // const Tab = createBottomTabNavigator()
-// function Tabs() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//         tabBarStyle: { backgroundColor: COLORS.blue },
-//         tabBarInactiveTintColor: COLORS.primary,
-//         tabBarActiveTintColor: COLORS.orange,
-//       }}
-//     >
-//       <Tab.Screen name="Start" component={StartScreen}
-//         options={{
-//           tabBarIcon: ({ color, size }) => {
-//             <Icon name='help' color={color} size={size} />
-//           }
-//         }}
-//       />
-//       <Tab.Screen name="Home" component={HomeScreen}
-//         options={{
-//           tabBarIcon: ({ color, size }) => {
-//             <Icon name='home' color={color} size={size} />
-//           }
-//         }}
-//       />
-//       <Tab.Screen name='Me' component={SignInScreen}
-//         options={{
-//           tabBarIcon: ({ color, size }) => {
-//             <Icon name='person' color={color} size={size} />
-//           }}} 
-//         />
 
-//     </Tab.Navigator>
+// function HomeStackScreen() {
+//   return (
+//     <Stack.Navigator initialRouteName='StartScreen' screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name='StartScreen' component={StartScreen} />
+//       <Stack.Screen name='HomeScreen' component={HomeScreen} />
+//       <Stack.Screen name='DetailsScreen' component={DetailsScreen} />
+//       <Stack.Screen name='TourScreen' component={TourScreen} />
+//       <Stack.Screen name='FavoriteScreen' component={FavoriteScreen} />
+//       <Stack.Screen name='SignInScreen' component={SignInScreen} />
+//       <Stack.Screen name='SignUpScreen' component={SignUpScreen} />
+
+//     </Stack.Navigator>
 //   )
 // }
 
-function HomeStackScreen() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='StartScreen' component={StartScreen} />
-      <Stack.Screen name='HomeScreen' component={HomeScreen} />
-      <Stack.Screen name='DetailsScreen' component={DetailsScreen} />
-      <Stack.Screen name='TourScreen' component={TourScreen} />
-      <Stack.Screen name='FavoriteScreen' component={FavoriteScreen} />
-      <Stack.Screen name='SignInScreen' component={SignInScreen} />
-      <Stack.Screen name='SignUpScreen' component={SignUpScreen} />
+// function LoginScreen() {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name='SignInScreen' component={SignInScreen} />
+//       <Stack.Screen name='SignUpScreen' component={SignUpScreen} />
+//     </Stack.Navigator>
+//   )
+// }
 
-    </Stack.Navigator>
-  )
-}
-
-function LoginScreen() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='SignIn' component={SignInScreen} />
-    </Stack.Navigator>
-  )
-}
-
-function AccountScreen() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='SignIn' component={SignInScreen} />
-    </Stack.Navigator>
-  )
-}
+// function AccountScreen() {
+//   return (
+//     <Stack.Navigator screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name='SignIn' component={SignInScreen} />
+//     </Stack.Navigator>
+//   )
+// }
 
 function App() {
+
+  const fetchAPI = async () => {
+    try {
+      const res = await axios.get('http://192.168.88.110:8000/')
+      console.log(res.data)
+    }
+    catch (err) {
+      console.log('error: ', err.message)
+    }
+  }
+
+  useEffect(() => {
+    fetchAPI()
+  }, [])
+
   return (
-    <NavigationContainer>
-      <Tab.Navigator
+    <LoginProvider>
+      <NavigationContainer>
+        {/* <Tab.Navigator
+        initialRouteName='HomeStackScreen'
         screenOptions={{
           headerShown: false,
           tabBarStyle: { backgroundColor: COLORS.blue },
@@ -113,7 +86,7 @@ function App() {
             }
           }}
         />
-        {/* <Tab.Screen name='Tôi' component={AccountScreen}
+        <Tab.Screen name='Tôi' component={AccountScreen}
           options={{
             tabBarIcon: ({ color, size }) => {
               return (
@@ -121,11 +94,13 @@ function App() {
               )
             }
           }}
-        /> */}
-        {/* <Tab.Screen name='SignUp' component={SignUpScreen} /> */}
+        />
 
-      </Tab.Navigator>
-    </NavigationContainer>
+      </Tab.Navigator> */}
+        <MainNavigator />
+      </NavigationContainer>
+
+    </LoginProvider>
   );
 }
 

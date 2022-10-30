@@ -2,14 +2,16 @@ import React from 'react'
 import { Text, View, SafeAreaView, StyleSheet, Button, Pressable } from 'react-native'
 import COLORS from '../consts/colors'
 
-const CustomButton = ({ onPress, text, bgColor, textColor, type }) => {
+const CustomButton = ({ onPress, text, widthBtn, bgColor, textColor, type }) => {
+    
     return (
         <Pressable 
             onPress={onPress}
             style={[
                 styles.container,
                 styles[`container_${type}`],
-                bgColor ? {backgroundColor: bgColor} : {}
+                bgColor ? {backgroundColor: bgColor} : {},
+                widthBtn ? {width: widthBtn} : {}
                 ]}>
 
             <Text
@@ -29,7 +31,9 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 15,
         marginVertical:5,
+        // flexDirection: 'row',
         alignItems:'center',
+        // justifyContent: 'center',
         borderRadius: 10,
     },
     container_Primary: {
@@ -40,6 +44,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: 'bold',
+        fontSize: 16,
         color: COLORS.white,
     },
     text_Secondary: {

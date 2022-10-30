@@ -10,6 +10,7 @@ import CustomIcon from '../../consts/CustomIcon'
 import DetailsScreen from '../screens/DetailsScreen'
 import SignUpScreen from '../screens/SignUpScreen'
 import TourScreen from './TourScreen'
+import HotelScreen from './HotelScreen'
 import FavoriteScreen from './FavoriteScreen'
 
 const { width } = Dimensions.get('screen')
@@ -39,14 +40,14 @@ const HomeScreen = ({ navigation }) => {
         return (
             <View style={style.categoryContainer}>
                 <CustomIcon 
-                    iconName='tour'
+                    iconName='beach-access'
                     text='Tour'
                     onPress={() => navigation.navigate('TourScreen')}
                 />
                 <CustomIcon 
-                    iconName='beach-access'
+                    iconName='apartment'
                     text='Khách sạn'
-                    //onPress={() => navigation.navigate('TourScreen')}
+                    onPress={() => navigation.navigate('HotelScreen')}
                 />
                 <CustomIcon 
                     iconName='favorite'
