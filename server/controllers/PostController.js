@@ -215,7 +215,9 @@ exports.getLatestPosts = async (req, res) => {
             meta: post.meta,
             slug: post.slug,
             thumbnail: post.thumbnail?.url,
-            author: post.author
+            author: post.author,
+            createAt: post.creaateAt,
+            tags: post.tags,
         }))
     })
 }

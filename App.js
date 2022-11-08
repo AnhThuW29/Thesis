@@ -44,7 +44,7 @@ function App() {
 
   const fetchAPI = async () => {
     try {
-      const res = await axios.get('http://192.168.88.110:8000/')
+      const res = await axios.get('http://192.168.31.119:8000/')
       console.log(res.data)
     }
     catch (err) {

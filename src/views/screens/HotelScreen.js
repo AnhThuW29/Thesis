@@ -43,7 +43,7 @@ const HotelScreen = ({ navigation }) => {
                 <View style={styles.header}>
                     <Icon name='arrow-back-ios' size={24} color={COLORS.white} onPress={navigation.goBack} />
                     <Text>Xin chào, Anh Thư</Text>
-                    <Icon name='more-horiz' size={24} color={COLORS.white} />
+                    <Icon name='notifications-none' size={24} color={COLORS.white} />
                 </View>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -56,15 +56,6 @@ const HotelScreen = ({ navigation }) => {
                                 placeholder="Gần chỗ tôi"
                                 style={{ color: COLORS.grey, paddingLeft: 5 }} />
                         </View>
-
-                        {/* <View style={styles.dateContainer}>
-                        <TextInput
-                            placeholder="Ngày nhận phòng"
-                        />
-                        <TextInput
-                            placeholder="Ngày trả phòng"
-                        />
-                    </View> */}
 
 
                         <View style={styles.dateContainer}>

@@ -9,10 +9,14 @@ import StartScreen from '../views/screens/StartScreen'
 import DetailsScreen from '../views/screens/DetailsScreen'
 import SignInScreen from '../views/screens/SignInScreen'
 import SignUpScreen from '../views/screens/SignUpScreen'
-import TourScreen from '../views/screens/TourScreen'
 import FavoriteScreen from '../views/screens/FavoriteScreen'
 import AccountScreen from '../views/screens/AccountScreen'
+import TourScreen from '../views/screens/TourScreen'
 import HotelScreen from '../views/screens/HotelScreen'
+import TourPost from '../views/screens/tourPost'
+import HotelPost from '../views/screens/hotelPost'
+import Post from '../views/screens/post'
+
 
 import { useLogin } from '../context/LoginProvider'
 
@@ -31,16 +35,20 @@ function HomeStackScreen() {
             <Stack.Screen name='SignUpScreen' component={SignUpScreen} />
             <Stack.Screen name='AccountScreen' component={AccountScreen} />
             <Stack.Screen name='HotelScreen' component={HotelScreen} />
+            <Stack.Screen name='TourPost' component={TourPost} />
+            <Stack.Screen name='HotelPost' component={HotelPost} />
+            <Stack.Screen name='Post' component={Post} />
 
         </Stack.Navigator>
     )
 }
 
-function LoginScreen() {
+function PostTab() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='SignInScreen' component={SignInScreen} />
-            <Stack.Screen name='SignUpScreen' component={SignUpScreen} />
+            <Stack.Screen name='Post' component={Post} />
+            <Stack.Screen name='TourPost' component={TourPost} />
+            <Stack.Screen name='HotelPost' component={HotelPost} />
         </Stack.Navigator>
     )
 }
@@ -68,11 +76,11 @@ const MainNavigator = () => {
                 tabBarActiveTintColor: COLORS.orange,
             }} >
 
-            <Tab.Screen name='Đăng nhập' component={LoginScreen}
+            <Tab.Screen name='Đăng bài' component={PostTab}
                 options={{
                     tabBarIcon: ({ color, size }) => {
                         return (
-                            <Icon name='account-circle' color={color} size={size} />
+                            <Icon name='post-add' color={color} size={size} />
                         )
                     }
                 }}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SafeAreaView, StatusBar, StyleSheet, View, TextInput, Text, ScrollView, FlatList, Dimensions, TouchableOpacity, ImageBackground } from "react-native"
+import { SafeAreaView, StatusBar, StyleSheet, View, TextInput, Text, ScrollView, FlatList, Dimensions, TouchableOpacity, ImageBackground, Pressable } from "react-native"
 import COLORS from '../../consts/colors'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import places from '../../consts/places'
@@ -11,20 +11,30 @@ const TourScreen = ({ navigation }) => {
     const tourCategories = ['tour thiên nhiên', 'tour biển', 'tour tham quan', 'tour gia đình']
     const [selectedIndex, setSelectedIndex] = useState(0)
 
-    const TourTopicList = (item, key) => {
+    const handleClick = (index) => {
+        setSelectedIndex(index)
+    }
+
+    const TourTopicList = () => {
         return (
             <View style={styles.categoryContainer}>
                 {tourCategories.map((item, index) => (
-                    <View
-                        key={index} style={{
-                            ...styles.tourList,
-                            backgroundColor:
-                                selectedIndex == index
-                                    ? COLORS.orange
-                                    : COLORS.primary
-                        }} >
-                        <Text>{item}</Text>
-                    </View>
+                    <Pressable
+                        activeOpacity={0.8}
+                        onPress={() => handleClick(index)}
+                    >
+                        <View
+                            style={{
+                                ...styles.tourList,
+                                backgroundColor:
+                                    selectedIndex === index
+                                        ? COLORS.orange
+                                        : COLORS.primary
+                            }} >
+                            <Text key={index}>{item}</Text>
+                        </View>
+
+                    </Pressable>
 
                 ))}
             </View>
@@ -68,6 +78,10 @@ const TourScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </ImageBackground>
+                <View style={styles.details}>
+                    <Text style={[styles.textDetails, styles.tourName]}>{place.tourName}</Text>
+                    <Text style={[styles.textDetails, { color: COLORS.orange }]}>{place.price}</Text>
+                </View>
             </TouchableOpacity>
         )
     }
@@ -78,7 +92,7 @@ const TourScreen = ({ navigation }) => {
             <View style={styles.header}>
                 <Icon name='arrow-back-ios' size={24} color={COLORS.white} onPress={navigation.goBack} />
                 <Text>Xin chào, Anh Thư</Text>
-                <Icon name='more-horiz' size={24} color={COLORS.white} />
+                <Icon name='notifications-none' size={24} color={COLORS.white} />
             </View>
             <View style={styles.inputContainer}>
                 <Icon name='search' size={24} />
@@ -97,14 +111,13 @@ const TourScreen = ({ navigation }) => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         data={tourCategories}
-                        renderItem={(item, index) => <TourTopicList item={item} />}
-                        keyExtractor={(item) => item.key}
+                        renderItem={({ item }) => <TourTopicList item={item} />}
+                        keyExtractor={item => item.key}
                     />
-
-                    
                 </View>
-                <View style={{marginTop: 20}}>
-                <FlatList
+
+                <View style={{ marginTop: 20 }}>
+                    <FlatList
                         contentContainerStyle={{ paddingLeft: 20 }}
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -113,7 +126,6 @@ const TourScreen = ({ navigation }) => {
                     />
                 </View>
 
-                {/* <TourTopicList /> */}
 
             </ScrollView>
         </SafeAreaView>
@@ -175,4 +187,17 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         borderRadius: 10,
     },
+    details: {
+        width: width - 200,
+        marginTop: 10,
+    },
+    tourName: {
+        overflow: 'hidden',
+        height: 20,
+        color: '#666666',
+    },
+    textDetails: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    }
 })

@@ -9,12 +9,12 @@ const DetailsScreen = ({ navigation, route }) => {
     const place = route.params
     return (
         <SafeAreaView
-            style={{ flex: 1, backgroundColor: COLORS.white }}>
+            style={{ flex: 1, backgroundColor: 'COLORS.white' }}>
             <StatusBar translucent backgroundColor='rgba(0,0,0,0)' />
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <ImageBackground style={{width:'100%', height: 400}} source={place.image}>
-                    <View style={style.header}>
+                <ImageBackground style={{ width: '100%', height: 400 }} source={place.image}>
+                    <View style={styles.header}>
                         <Icon
                             name='arrow-back-ios'
                             size={28}
@@ -26,7 +26,7 @@ const DetailsScreen = ({ navigation, route }) => {
                             color={COLORS.white} />
                     </View>
 
-                    <View style={style.imageDetails}>
+                    <View style={styles.imageDetails}>
                         <Text style={{
                             width: '70%',
                             fontSize: 30,
@@ -34,7 +34,7 @@ const DetailsScreen = ({ navigation, route }) => {
                             color: COLORS.white,
                             marginBottom: 20,
                         }}>
-                            {place.name}
+                            {place.tourName}
                         </Text>
                         <View style={{ flexDirection: 'row' }}>
                             <Icon name='star' size={30} color={COLORS.orange} />
@@ -47,12 +47,12 @@ const DetailsScreen = ({ navigation, route }) => {
                     </View>
                 </ImageBackground>
 
-                <View style={style.detailsContainer}>
-                    <View style={{ flex: 0.4, bottom: 25 }}>
-                        <View style={style.iconContainer}>
-                            <Icon name='favorite' size={30} color={COLORS.red} />
+                <View style={styles.detailsContainer}>
+                    <View style={{ flex: 0.4, bottom: 25, }}>
+                        <View style={styles.iconContainer}>
+                            <Icon name='favorite' size={30} color={COLORS.gray} />
                         </View>
-                        <View>
+                        <View style={{ flexDirection: 'row', top: 10 }}>
                             <Icon name='place' size={28} color={COLORS.primary} />
                             <Text style={{
                                 marginLeft: 5,
@@ -63,50 +63,86 @@ const DetailsScreen = ({ navigation, route }) => {
                                 {place.location}
                             </Text>
                         </View>
-                        <Text style={{ marginTop: 15, fontWeight: 'bold', fontSize: 20 }}>
+                        {/* <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
                             Giới thiệu
-                        </Text>
+                        </Text> */}
                     </View>
-                    <ScrollView style={{ flex: 0.6, top: 35 }}>
-                        <Text style={{ marginTop: 20, lineHeight: 22 }}>{place.details}</Text>
+                    <ScrollView style={{ flex: 0.6, top: 10 }}>
+
+                        <View style={styles.info}>
+                            <View style={styles.infoDate}>
+                                <Icon name="today" color={COLORS.primary} size={20} />
+                                <Text style={{ marginLeft: 5 }}>Ngày đi: {place.start}</Text>
+                            </View>
+                            <View style={styles.infoDate}>
+                                <Icon name="today" color={COLORS.primary} size={20} />
+                                <Text style={{ marginLeft: 5 }}>Ngày về: {place.end} </Text>
+                            </View>
+                            <View style={styles.infoDate}>
+                                <Icon name="date-range" color={COLORS.primary} size={20} />
+                                <Text style={{ marginLeft: 5 }}>Độ dài: {place.range}</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.info}>
+                            <Text style={{ marginVertical: 20, fontWeight: 'bold', fontSize: 20 }}>
+                                Giới thiệu
+                            </Text>
+                            <Text style={{ lineHeight: 22 }}>{place.details}</Text>
+                        </View>
+
+                        <View style={styles.info}>
+                            <Text style={{ marginVertical: 20, fontWeight: 'bold', fontSize: 20 }}>
+                                Lịch trình tour
+                            </Text>
+                            <Text style={{ lineHeight: 22 }}>{place.details}</Text>
+                        </View>
+
+                        <View style={styles.info}>
+                            <Text style={{ marginVertical: 20, fontWeight: 'bold', fontSize: 20 }}>
+                                Thông tin liên lạc
+                            </Text>
+                            <View style={styles.infoDate}>
+                                <Icon name="email" color={COLORS.primary} size={20} />
+                                <Text style={{ marginLeft: 5 }}>Email: </Text>
+                            </View>
+                            <View style={styles.infoDate}>
+                                <Icon name="phone" color={COLORS.primary} size={20} />
+                                <Text style={{ marginLeft: 5 }}>Số điện thoại: </Text>
+                            </View>
+                        </View>
+
                     </ScrollView>
+
+
                 </View>
-
-
-                <View style={style.footer}>
-                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{
-                            fontSize: 18,
-                            fontWeight: 'bold',
-                            color: COLORS.white,
-                        }}
-                        >$100</Text>
-                        <Text style={{
-                            fontSize: 12,
-                            fontWeight: 'bold',
-                            color: COLORS.grey,
-                            marginLeft: 2,
-                        }}>
-                            /1 ngày
-                        </Text>
-                    </View>
-                    <View style={style.btnBookNow}>
-                        <Text style={{ color: COLORS.primary, fontSize: 16, fontWeight: 'bold' }}>
-                            Đăng ký ngay
-                        </Text>
-                    </View>
-                </View>
-
             </ScrollView>
-        </SafeAreaView>
+
+            <View style={styles.footer}>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={{
+                        fontWeight: 'bold',
+                        color: COLORS.white,
+                    }}>
+                        {place.price} / Tour
+                    </Text>
+                </View>
+                <View style={styles.btnBookNow}>
+                    <Text style={{ color: COLORS.primary, fontSize: 16, fontWeight: 'bold' }}>
+                        Đăng ký ngay
+                    </Text>
+                </View>
+            </View>
+
+        </SafeAreaView >
     )
 }
 export default DetailsScreen
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     btnBookNow: {
-        height: 50,
-        width: 150,
+        height: 40,
+        width: 130,
         backgroundColor: COLORS.white,
         borderRadius: 10,
         justifyContent: 'center',
@@ -153,9 +189,31 @@ const style = StyleSheet.create({
     footer: {
         flexDirection: 'row',
         backgroundColor: COLORS.primary,
-        height: 70,
+        height: 60,
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 20,
-    }
+    },
+    info: {
+        marginVertical: 10,
+        borderTopWidth: 1,
+        borderTopColor: '#f2f2f2',
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+        paddingVertical: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+    },
+    infoDate: {
+        flexDirection: 'row',
+        marginTop: 20,
+        marginBottom: 10,
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#f2f2f2',
+        // paddingBottom: 5,
+    },
+
+
 })
