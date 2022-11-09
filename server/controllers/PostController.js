@@ -207,19 +207,20 @@ exports.getLatestPosts = async (req, res) => {
         .skip(parseInt(pageN) * parseInt(limit))
         .limit(parseInt(limit))
 
-    res.json({
-        post: post.map((post) => ({
-            id: post._id,
-            title: post.title,
-            content: post.content,
-            meta: post.meta,
-            slug: post.slug,
-            thumbnail: post.thumbnail?.url,
-            author: post.author,
-            createAt: post.creaateAt,
-            tags: post.tags,
-        }))
-    })
+    res.json(post)
+    // res.json({
+    //     post: post.map((post) => ({
+    //         id: post._id,
+    //         title: post.title,
+    //         content: post.content,
+    //         meta: post.meta,
+    //         slug: post.slug,
+    //         thumbnail: post.thumbnail?.url,
+    //         author: post.author,
+    //         createAt: post.creaateAt,
+    //         tags: post.tags,
+    //     }))
+    // })
 }
 
 
