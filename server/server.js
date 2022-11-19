@@ -8,6 +8,8 @@ const morgan = require('morgan')
 
 const userRouter = require('./routes/user')
 const postRouter = require('./routes/post')
+const tourPost = require('./routes/tourPost')
+// const test = require('./routes/test')
 
 const app = express()
 const PORT = process.env.PORT
@@ -17,12 +19,15 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use(cors())
 
-app.use(userRouter)
-app.use('/api/post',postRouter)
 
 app.use((err, req, res, next) => {
     res.status(500).json({error: err.message})
 })
+
+app.use(userRouter)
+app.use('/post',postRouter)
+app.use('/tour-post', tourPost)
+// app.use('/test',test)
 
 app.get('/', (req, res ) => {
     // res.send('Hello world!!!')

@@ -1,45 +1,58 @@
 import React, { useState } from 'react'
 import { SafeAreaView, StatusBar, StyleSheet, View, TextInput, Text, ScrollView, FlatList, Dimensions, TouchableOpacity, ImageBackground, Pressable } from "react-native"
-import COLORS from '../../consts/colors'
+import COLORS from '../../../consts/colors'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import places from '../../consts/places'
+import places from '../../../consts/places'
 
 
 const { width } = Dimensions.get('screen')
 
 const TourScreen = ({ navigation }) => {
-    const tourCategories = ['tour thiên nhiên', 'tour biển', 'tour tham quan', 'tour gia đình']
-    const [selectedIndex, setSelectedIndex] = useState(0)
+    const tourCategories = [
+        {
+            id: 1,
+            name: "Tour thiên nhiên",
+        },
+        {
+            id: 2,
+            name: "Tour biển",
+        },
+        {
+            id: 3,
+            name: "Tour tham quan",
+        },
+        {
+            id: 4,
+            name: "Tour gia đình",
+        },
+    ];
 
-    const handleClick = (index) => {
-        setSelectedIndex(index)
-    }
+    const [selected, setSelected] = useState(0);
 
-    const TourTopicList = () => {
+    const handleClick = (id) => {
+        setSelected(id);
+        // navigation.goBack()
+    };
+
+    const TourTopicList = ({ item }) => {
         return (
-            <View style={styles.categoryContainer}>
-                {tourCategories.map((item, index) => (
-                    <Pressable
-                        activeOpacity={0.8}
-                        onPress={() => handleClick(index)}
+            <View key={item.id} style={styles.categoryContainer}>
+                <Pressable activeOpacity={0.8} onPress={() => handleClick(item.id)}>
+                    <View
+                        style={{
+                            ...styles.tourList,
+                            backgroundColor:
+                                selected === item.id
+                                    ? COLORS.orange
+                                    : COLORS.primary,
+                        }}
                     >
-                        <View
-                            style={{
-                                ...styles.tourList,
-                                backgroundColor:
-                                    selectedIndex === index
-                                        ? COLORS.orange
-                                        : COLORS.primary
-                            }} >
-                            <Text key={index}>{item}</Text>
-                        </View>
-
-                    </Pressable>
-
-                ))}
+                        <Text>{item.name}</Text>
+                    </View>
+                </Pressable>
             </View>
-        )
-    }
+        );
+    };
 
     const Card = ({ place }) => {
         return (
@@ -112,7 +125,7 @@ const TourScreen = ({ navigation }) => {
                         showsHorizontalScrollIndicator={false}
                         data={tourCategories}
                         renderItem={({ item }) => <TourTopicList item={item} />}
-                        keyExtractor={item => item.key}
+                        keyExtractor={(item) => item.key}
                     />
                 </View>
 

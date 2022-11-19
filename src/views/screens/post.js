@@ -14,8 +14,9 @@ import {
 import { NativeBaseProvider, Box, Button, VStack, Center } from 'native-base'
 import CustomTheme from '../../consts/CustomTheme'
 import COLORS from '../../consts/colors';
-import TourPost from './tourPost';
-import HotelPost from './hotelPost';
+import TourPost from '../screens/Tour/tourPost';
+import HotelPost from '../screens/Hotel/hotelPost';
+// import Test from './test'
 
 
 const Post = ({ navigation }) => {

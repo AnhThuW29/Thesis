@@ -84,10 +84,10 @@ const AccountScreen = ({ navigation }) => {
                             <Text style={styles.menuItemText}>Support</Text>
                         </View>
                     </TouchableRipple>
-                    <TouchableRipple onPress={() => { }}>
+                    <TouchableRipple onPress={() => navigation.navigate('SignInScreen')}>
                         <View style={styles.menuItem}>
                             <Icon name="settings" color="#FF6347" size={25} />
-                            <Text style={styles.menuItemText}>Settings</Text>
+                            <Text style={styles.menuItemText}>Đăng nhập</Text>
                         </View>
                     </TouchableRipple>
                 </View>

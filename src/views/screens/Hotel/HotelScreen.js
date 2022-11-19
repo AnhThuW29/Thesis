@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { SafeAreaView, StatusBar, StyleSheet, View, TextInput, Text, ScrollView, FlatList, Button, Platform } from "react-native"
-import COLORS from '../../consts/colors'
+import COLORS from '../../../consts/colors'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import CustomTheme from '../../consts/CustomTheme'
+import CustomTheme from '../../../consts/CustomTheme'
 import DateTimePickerModal from "react-native-modal-datetime-picker"
 import { NativeBaseProvider, Select, Center, Box, CheckIcon, HStack, Stack } from 'native-base'
 
-import CustomButton from '../../consts/CustomButton'
+import CustomButton from '../../../consts/CustomButton'
 
 const HotelScreen = ({ navigation }) => {
 

@@ -27,9 +27,9 @@ const CustomInput = ({
             ]}>
                 <Icon
                     name={iconName}
-                    corlor={COLORS.primary}
+                    color={COLORS.primary}
                     size={20}
-                    style={{marginRight: 5}}
+                    style={{marginRight: 8,}}
                 />
                 <TextInput
                     autoCorrect={false}

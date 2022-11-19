@@ -1,12 +1,73 @@
-import React from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, ImageBackground, StatusBar, View, Text } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import React, { useEffect, useState } from 'react'
+import { SafeAreaView, ScrollView, StyleSheet, ImageBackground, StatusBar, View, Text, TouchableOpacity } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import HomeScreen from '../screens/HomeScreen'
+import EditTour from './Tour/EditTour'
 
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import COLORS from '../../consts/colors'
-//import place from '../../consts/places'
+import Places from '../../consts/places'
+import axiosClient from '../../api/client';
 
 const DetailsScreen = ({ navigation, route }) => {
     const place = route.params
+
+    const [product, setProduct] = useState({});
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getDataFromDB();
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+
+    //get product data by productID
+    const getDataFromDB = async () => {
+        for (let index = 0; index < Places.length; index++) {
+            if (Places[index].id == place.id) {
+                await setProduct(Places[index]);
+                return;
+            }
+        }
+    };
+
+    //add to cart
+
+    const addToCart = async id => {
+        let itemArray = await AsyncStorage.getItem('cartItems');
+        itemArray = JSON.parse(itemArray);
+        if (itemArray) {
+            let array = itemArray;
+            array.push(id);
+
+            try {
+                await AsyncStorage.setItem('cartItems', JSON.stringify(array));
+                ToastAndroid.show(
+                    'Item Added Successfully to cart',
+                    ToastAndroid.SHORT,
+                );
+                navigation.navigate('HomeScreen');
+            } catch (error) {
+                return error;
+            }
+        } else {
+            let array = [];
+            array.push(id);
+            try {
+                await AsyncStorage.setItem('cartItems', JSON.stringify(array));
+                ToastAndroid.show(
+                    'Item Added Successfully to cart',
+                    ToastAndroid.SHORT,
+                );
+                navigation.navigate('HomeScreen');
+            } catch (error) {
+                return error;
+            }
+        }
+    };
+
+
     return (
         <SafeAreaView
             style={{ flex: 1, backgroundColor: 'COLORS.white' }}>
@@ -23,7 +84,8 @@ const DetailsScreen = ({ navigation, route }) => {
                         <Icon
                             name='more-vert'
                             size={28}
-                            color={COLORS.white} />
+                            color={COLORS.white}
+                        />
                     </View>
 
                     <View style={styles.imageDetails}>
@@ -127,11 +189,12 @@ const DetailsScreen = ({ navigation, route }) => {
                         {place.price} / Tour
                     </Text>
                 </View>
-                <View style={styles.btnBookNow}>
+                <TouchableOpacity style={styles.btnBookNow} onPress={() => addToCart(product.id)}>
                     <Text style={{ color: COLORS.primary, fontSize: 16, fontWeight: 'bold' }}>
-                        Đăng ký ngay
+                        {/* {product.isAvailable ? 'Thêm vào giỏ hàng' : 'Không có sẵn'} */}
+                        Thêm vào giỏ hàng
                     </Text>
-                </View>
+                </TouchableOpacity>
             </View>
 
         </SafeAreaView >
@@ -142,7 +205,7 @@ export default DetailsScreen
 const styles = StyleSheet.create({
     btnBookNow: {
         height: 40,
-        width: 130,
+        width: 160,
         backgroundColor: COLORS.white,
         borderRadius: 10,
         justifyContent: 'center',

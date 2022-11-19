@@ -9,8 +9,8 @@ import CustomIcon from '../../consts/CustomIcon'
 
 import DetailsScreen from '../screens/DetailsScreen'
 import SignUpScreen from '../screens/SignUpScreen'
-import TourScreen from './TourScreen'
-import HotelScreen from './HotelScreen'
+import TourScreen from './Tour/TourScreen'
+import HotelScreen from './Hotel/HotelScreen'
 import FavoriteScreen from './FavoriteScreen'
 
 const { width } = Dimensions.get('screen')
@@ -40,24 +40,28 @@ const HomeScreen = ({ navigation }) => {
         return (
             <View style={style.categoryContainer}>
                 <CustomIcon 
+                    key='tour'
                     iconName='beach-access'
                     text='Tour'
                     onPress={() => navigation.navigate('TourScreen')}
                 />
                 <CustomIcon 
+                    key='hotel'
                     iconName='apartment'
                     text='Khách sạn'
                     onPress={() => navigation.navigate('HotelScreen')}
                 />
                 <CustomIcon 
+                    key='favorite'
                     iconName='favorite'
                     text='Yêu thích'
                     onPress={() => navigation.navigate('FavoriteScreen')}
                 />
                 <CustomIcon 
+                    key='map'
                     iconName='place'
                     text='Bản đồ'
-                    //onPress={() => navigation.navigate('FavoriteScreen')}
+                    //onPress={() => navigation.navigate('Map')}
                 />
             </View>
         )

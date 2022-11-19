@@ -1,4 +1,4 @@
-const Post = require('../models/post')
+const TourPost = require('../models/tourPost')
 const FeaturedPost = require('../models/featuredPost')
 const cloudinary = require('../cloud/index')
 const { isValidObjectId } = require('mongoose')
@@ -34,37 +34,26 @@ const isFeaturedPost = async (postId) => {
 exports.createPost = async (req, res, next) => {
 
     try {
-        const { title, content, meta, slug, tags, guider, featured } = req.body
+        const { title, content, place, city, tags, guider, email, phone, startDate, endDate, range, price, featured, schedule } = req.body
+        const post = new TourPost({ title, content, place, city, tags, guider, email, phone, startDate, endDate, range, price, featured, schedule })
+        
+        // const isAlreadyExists = await TourPost.findOne({ slug })
+        // if (isAlreadyExists)
+        // return res.status(401).json({ error: 'Sử dụng slug duy nhất' })
+        
         const { file } = req
-
-        const isAlreadyExists = await Post.findOne({ slug })
-        if (isAlreadyExists)
-            return res.status(401).json({ error: 'Sử dụng slug duy nhất' })
-        const post = new Post({ title, content, meta, slug, tags, guider })
-
         if (file) {
             const { secure_url: url, public_id } = await cloudinary.uploader.upload(file.path)
             post.thumbnail = { url, public_id }
         }
 
+        if (featured)
+        await addToFeaturedPost(post._id)
+        
         await post.save()
 
+        res.json(post)
 
-        if (featured)
-            await addToFeaturedPost(post._id)
-
-
-        res.json({
-            post: {
-                id: post._id,
-                title,
-                content,
-                meta,
-                slug,
-                thumbnail: post.thumbnail?.url,
-                author: post.author
-            }
-        })
     } catch (error) {
         next(error)
     }
@@ -72,13 +61,13 @@ exports.createPost = async (req, res, next) => {
 
 // Cập nhật post theo id
 exports.updatePost = async (req, res) => {
-    const { title, content, meta, slug, tags, guider, featured } = req.body
+    const { title, content, place, city, price, slug, tags, guider, email, phone, startDate, endDate, range, featured, schedule } = req.body
     const { file } = req
     const { postId } = req.params
     if (!isValidObjectId(postId))
         return res.status(401).json({ error: 'Yêu cầu không hợp lệ' })
 
-    const post = await Post.findById(postId)
+    const post = await TourPost.findById(postId)
     if (!post)
         return res.status(404).json({ error: 'Không tìm thấy bài đăng' })
 
@@ -98,10 +87,19 @@ exports.updatePost = async (req, res) => {
 
     post.title = title
     post.content = content
-    post.meta = meta
-    post.slug = slug
+    post.place = place
+    post.city = city
+    post.price = price
+    // post.slug = slug
     post.guider = guider
     post.tags = tags
+    post.startDate = startDate
+    post.endDate = endDate
+    post.range = range
+    post.email = email
+    post.phone = phone
+    post.schedule = schedule
+
 
     if (featured)
         await addToFeaturedPost(post._id)
@@ -115,11 +113,17 @@ exports.updatePost = async (req, res) => {
             id: post._id,
             title,
             content,
-            meta,
+            place,
+            city,
+            price,
+            startDate,
+            endDate,
+            range,
             slug,
-            tags,
+            // tags,
             thumbnail: post.thumbnail?.url,
             guider: post.guider,
+            schedule,
             featured,
         }
     })
@@ -131,19 +135,19 @@ exports.deletePost = async (req, res) => {
     if (!isValidObjectId(postId))
         return res.status(401).json({ error: 'Yêu cầu không hợp lệ' })
 
-    const post = await Post.findById(postId)
+    const post = await TourPost.findById(postId)
     if (!post)
         return res.status(404).json({ error: 'Không tìm thấy bài đăng' })
 
     // check có thumbnail hay không thì delete khỏi cloud
-    const { public_id } = post.thumbnail?.public_id
-    if (public_id) {
-        const { result } = await cloudinary.uploader.destroy(public_id)
-        if (result !== 'ok')
-            return res.status(401).json({ error: 'Không thể xóa thumbnail' })
-    }
+    // const { public_id } = post.thumbnail?.public_id
+    // if (public_id) {
+    //     const { result } = await cloudinary.uploader.destroy(public_id)
+    //     if (result !== 'ok')
+    //         return res.status(401).json({ error: 'Không thể xóa thumbnail' })
+    // }
 
-    await Post.findByIdAndDelete(postId)
+    await TourPost.findByIdAndDelete(postId)
     await removeFromFeaturedPost(postId)
     res.json({ message: 'Post đã được xóa thành công' })
 
@@ -155,27 +159,27 @@ exports.getPost = async (req, res) => {
     if (!slug)
         return res.status(401).json({ error: 'Yêu cầu không hợp lệ' })
 
-    const post = await Post.findOne({ slug })
+    const post = await TourPost.findOne({ slug })
     if (!post)
         return res.status(404).json({ error: 'Không tìm thấy bài đăng' })
 
     const featured = await isFeaturedPost(post._id)
 
-    const { title, content, meta, tags, guider, createAt } = post
+    const { title, content, place, city, price, tags, guider, email, phone, startDate, endDate, range, schedule} = post
 
-    res.json({
-        post: {
-            id: post._id,
-            title,
-            content,
-            meta,
-            tags,
-            thumbnail: post.thumbnail?.url,
-            guider: post.guider,
-            featured,
-            createAt
-        }
-    })
+    res.json(post)
+    //     post: {
+    //         id: post._id,
+    //         title,
+    //         content,
+    //         meta,
+    //         tags,
+    //         thumbnail: post.thumbnail?.url,
+    //         guider: post.guider,
+    //         featured,
+    //         createAt
+    //     }
+    // })
 }
 
 // Get featured posts
@@ -190,10 +194,17 @@ exports.getFeaturedPosts = async (req, res) => {
             id: post._id,
             title: post.title,
             content: post.content,
-            meta: post.meta,
+            place: post.place,
+            city: post.city,
+            price: post.price,
             slug: post.slug,
             thumbnail: post.thumbnail?.url,
-            author: post.author
+            guider: post.guider,
+            startDate: post.startDate,
+            endDate: post.endDate,
+            range: post.range,
+            email: post.email,
+            phone: post.phone,
         }))
     })
 }
@@ -202,7 +213,7 @@ exports.getFeaturedPosts = async (req, res) => {
 exports.getLatestPosts = async (req, res) => {
     const { pageN = 0, limit = 10 } = req.query
 
-    const post = await Post.find({})
+    const post = await TourPost.find({})
         .sort({ createAt: -1 })
         .skip(parseInt(pageN) * parseInt(limit))
         .limit(parseInt(limit))
@@ -231,17 +242,24 @@ exports.searchPost = async (req, res) => {
         return res.status(401).json({ error: 'Truy vấn tìm kiếm bị thiếu' })
 
     // Tìm kiếm tiêu đề với chữ hoa và thường
-    const post = await Post.find({ title: { $regex: title, $options: 'i' } })
+    const post = await TourPost.find({ title: { $regex: title, $options: 'i' } })
 
     res.json({
         post: post.map((post) => ({
             id: post._id,
             title: post.title,
             content: post.content,
-            meta: post.meta,
-            slug: post.slug,
+            place: post.place,
+            price: post.price,
+            // slug: post.slug,
             thumbnail: post.thumbnail?.url,
-            author: post.author
+            guider: post.guider,
+            startDate: post.startDate,
+            endDate: post.endDate,
+            range: post.range,
+            email: post.email,
+            phone: post.phone,
+            schedule: post.schedule
         }))
     })
 }
@@ -270,10 +288,19 @@ exports.relatedPosts = async (req, res) => {
             id: post._id,
             title: post.title,
             content: post.content,
-            meta: post.meta,
-            slug: post.slug,
+            place: post.place,
+            city: post.city,
+            price: post.price,
+            // slug: post.slug,
             thumbnail: post.thumbnail?.url,
-            author: post.author
+            guider: post.guider,
+            startDate: post.startDate,
+            endDate: post.endDate,
+            range: range,
+            email: post.email,
+            phone: post.phone,
+            schedule: post.schedule,
+            thumbnail: post.thumbnail?.url,
         }))
     })
 }

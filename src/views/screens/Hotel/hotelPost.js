@@ -16,8 +16,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Feather from 'react-native-vector-icons/Feather'
 // import ImagePicker from 'react-native-image-crop-picker'
-import CustomTheme from '../../consts/CustomTheme'
-import COLORS from '../../consts/colors';
+import CustomTheme from '../../../consts/CustomTheme'
+import COLORS from '../../../consts/colors';
 
 const HotelPost = ({ navigation }) => {
 
