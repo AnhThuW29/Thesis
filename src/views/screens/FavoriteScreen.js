@@ -113,7 +113,7 @@ const FavoriteScreen = ({ navigation }) => {
 
     const searchFilter = (text) => {
         if (text) {
-            const newData = setPost.filter(item => {
+            const newData = posts.filter(item => {
                 const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase()
                 const textData = text.toUpperCase()
                 return itemData.indexOf(textData) > -1
@@ -128,7 +128,7 @@ const FavoriteScreen = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, }}>
+        <SafeAreaView style={{ flex: 1 }}>
             <StatusBar translucent={false} backgroundColor={COLORS.white} />
 
             <View style={styles.header}>
@@ -151,7 +151,7 @@ const FavoriteScreen = ({ navigation }) => {
                     snapToAlignment={width - 20}
                     contentContainerStyle={{ paddingLeft: 20 }}
                     showsVerticalScrollIndicator={false}
-                    data={posts}
+                    data={filter}
                     renderItem={({ item }) => {
                         return (
                             <RenderItem post={item} />
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
     },
     dataContainer: {
-        marginTop: 60,
+        marginVertical: 60
     },
     cardImage: {
         height: 200,

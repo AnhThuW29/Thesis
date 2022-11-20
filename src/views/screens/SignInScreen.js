@@ -9,11 +9,16 @@ import CustomInput from '../../consts/CustomInput'
 import SignUpScreen from '../screens/SignUpScreen'
 import { isValidEmail, isValidObjectField, updateError } from '../../utils/methods'
 import client from '../../api/client'
-import { useLogin } from '../../context/LoginProvider'
-import { ErrorMessage } from 'formik'
+// import { useLogin } from '../../context/LoginProvider'
+import { useDispatch } from 'react-redux'
+import { account } from '../../store/AccountSlice'
+import { Login } from '../../store/action'
 
 
 const SignInScreen = () => {
+
+    const dispatch = useDispatch()
+
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
@@ -22,7 +27,7 @@ const SignInScreen = () => {
     const { email, password } = userInfo
 
     const [error, setError] = useState('')
-    const { setIsLoggedIn, setProfile } = useLogin()
+    // const { setIsLoggedIn, setProfile } = useLogin()
 
     const handleOnChangeText = (value, fieldName) => {
         setUserInfo({ ...userInfo, [fieldName]: value })
@@ -49,12 +54,15 @@ const SignInScreen = () => {
 
                 if (res.data.success) {
                     setUserInfo({ email: '', password: '' })
-                    setIsLoggedIn(true)
+                    // setIsLoggedIn(true)
+                    // dispatch(account(res.data))
+                    dispatch(true)
                 }
+
             } catch (err) {
                 console.log('Error: ', err.message)
             }
-        }
+        }  
     }
 
     const onForgotPassword = () => {

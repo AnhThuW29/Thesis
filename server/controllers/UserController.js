@@ -20,6 +20,15 @@ exports.createUser = async (req, res) => {
     res.json(user)
 }
 
+// Get latest posts
+exports.getUser = async (req, res) => {
+    const { id } = req.params
+
+    const user = await User.findById(id)
+
+    res.json(user)
+}
+
 exports.userSignIn = async (req, res) => {
     const { email, password } = req.body
 

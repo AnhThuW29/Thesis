@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import COLORS from '../consts/colors'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -18,18 +19,17 @@ import HotelPost from '../views/screens/Hotel/hotelPost'
 import Post from '../views/screens/post'
 import MyCart from '../views/screens/MyCart'
 import EditTour from '../views/screens/Tour/EditTour'
+import TabNavigation from './TabNavigation'
+import { useSelector } from 'react-redux'
 
-// import TestDel from '../views/screens/Tour/testDel'
-
-
-import { useLogin } from '../context/LoginProvider'
+// import { useLogin } from '../context/LoginProvider'
 
 const Stack = createNativeStackNavigator()
-const Tab = createBottomTabNavigator()
+// const Tab = createBottomTabNavigator()
 
 function HomeStackScreen() {
     return (
-        <Stack.Navigator initialRouteName='StartScreen' screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName='TabScreen' screenOptions={{ headerShown: false }}>
             <Stack.Screen name='StartScreen' component={StartScreen} />
             <Stack.Screen name='HomeScreen' component={HomeScreen} />
             <Stack.Screen name='DetailsScreen' component={DetailsScreen} />
@@ -44,95 +44,119 @@ function HomeStackScreen() {
             <Stack.Screen name='Post' component={Post} />
             <Stack.Screen name='MyCart' component={MyCart} />
             <Stack.Screen name='EditTour' component={EditTour} />
-
-            {/* <Stack.Screen name='TestDel' component={TestDel} /> */}
+            {/* tabs */}
+            <Stack.Screen name='TabScreen' component={TabNavigation} />
 
         </Stack.Navigator>
     )
 }
 
-function PostTab() {
+function AuthStack() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='Post' component={Post} />
-            <Stack.Screen name='TourPost' component={TourPost} />
-            {/* <Stack.Screen name='Test' component={Test} /> */}
-            <Stack.Screen name='HotelPost' component={HotelPost} />
+            <Stack.Screen name='SignInScreen' component={SignInScreen} />
+            {/* <Stack.Screen name='SignUpScreen' component={SignUpScreen} /> */}
         </Stack.Navigator>
     )
 }
 
-function Account() {
-    return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='Account' component={AccountScreen} />
-        </Stack.Navigator>
-    )
-}
+// function PostTab() {
+//     return (
+//         <Stack.Navigator screenOptions={{ headerShown: false }}>
+//             <Stack.Screen name='Post' component={Post} />
+//             <Stack.Screen name='TourPost' component={TourPost} />
+//             {/* <Stack.Screen name='Test' component={Test} /> */}
+//             <Stack.Screen name='HotelPost' component={HotelPost} />
+//         </Stack.Navigator>
+//     )
+// }
 
-function Cart() {
-    return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='MyCart' component={MyCart} />
-        </Stack.Navigator>
-    )
-}
+// function Account() {
+//     return (
+//         <Stack.Navigator screenOptions={{ headerShown: false }}>
+//             <Stack.Screen name='Account' component={AccountScreen} />
+//         </Stack.Navigator>
+//     )
+// }
+
+// function Cart() {
+//     return (
+//         <Stack.Navigator screenOptions={{ headerShown: false }}>
+//             <Stack.Screen name='MyCart' component={MyCart} />
+//         </Stack.Navigator>
+//     )
+// }
 
 const MainNavigator = () => {
 
-    const { isLoggedIn } = useLogin()
+    // const { isLoggedIn } = useLogin()
+
+    // return (
+    //     isLoggedIn ? <Account /> :
+    //         <Tab.Navigator
+    //             initialRouteName='HomeStackScreen'
+    //             screenOptions={{
+    //                 headerShown: false,
+    //                 tabBarStyle: { backgroundColor: COLORS.blue },
+    //                 tabBarInactiveTintColor: COLORS.orange,
+    //                 tabBarActiveTintColor: COLORS.red,
+    //             }} >
+
+    //             <Tab.Screen name='Home' component={HomeStackScreen}
+    //                 options={{
+    //                     tabBarIcon: ({ color, size }) => {
+    //                         return (
+    //                             <Icon name='home' color={color} size={size} />
+    //                         )
+    //                     }
+    //                 }}
+    //             />
+    //             <Tab.Screen name='Đăng bài' component={PostTab}
+    //                 options={{
+    //                     tabBarIcon: ({ color, size }) => {
+    //                         return (
+    //                             <Icon name='post-add' color={color} size={size} />
+    //                         )
+    //                     }
+    //                 }}
+    //             />
+    //             <Tab.Screen name='Giỏ hàng' component={Cart}
+    //                 options={{
+    //                     tabBarIcon: ({ color, size }) => {
+    //                         return (
+    //                             <Icon name='shopping-cart' color={color} size={size} />
+    //                         )
+    //                     }
+    //                 }}
+    //             />
+    //             <Tab.Screen name='Tôi' component={Account}
+    //                 options={{
+    //                     tabBarIcon: ({ color, size }) => {
+    //                         return (
+    //                             <Icon name='account-circle' color={color} size={size} />
+    //                         )
+    //                     }
+    //                 }}
+    //             />
+
+    //         </Tab.Navigator>
+    // )
+
+    const [token, setToken] = useState(false)
+
+    useEffect(() => {
+        const get = () => {
+            setToken(useSelector(state => state.user.authToken))
+        }
+        get()
+    }, [])
+
 
     return (
-        isLoggedIn ? <Account /> :
-            <Tab.Navigator
-                initialRouteName='HomeStackScreen'
-                screenOptions={{
-                    headerShown: false,
-                    tabBarStyle: { backgroundColor: COLORS.blue },
-                    tabBarInactiveTintColor: COLORS.orange,
-                    tabBarActiveTintColor: COLORS.red,
-                }} >
-
-                <Tab.Screen name='Home' component={HomeStackScreen}
-                    options={{
-                        tabBarIcon: ({ color, size }) => {
-                            return (
-                                <Icon name='home' color={color} size={size} />
-                            )
-                        }
-                    }}
-                />
-                <Tab.Screen name='Đăng bài' component={PostTab}
-                    options={{
-                        tabBarIcon: ({ color, size }) => {
-                            return (
-                                <Icon name='post-add' color={color} size={size} />
-                            )
-                        }
-                    }}
-                />
-                <Tab.Screen name='Giỏ hàng' component={Cart}
-                    options={{
-                        tabBarIcon: ({ color, size }) => {
-                            return (
-                                <Icon name='shopping-cart' color={color} size={size} />
-                            )
-                        }
-                    }}
-                />
-                <Tab.Screen name='Tôi' component={Account}
-                    options={{
-                        tabBarIcon: ({ color, size }) => {
-                            return (
-                                <Icon name='account-circle' color={color} size={size} />
-                            )
-                        }
-                    }}
-                />
-
-            </Tab.Navigator>
+        <NavigationContainer>
+            {token ? <HomeStackScreen /> : <AuthStack />}
+        </NavigationContainer>
     )
-
 
 }
 
