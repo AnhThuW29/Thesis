@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useContext} from "react"
 import { View, Text, StyleSheet, SafeAreaView, StatusBar, ScrollView, ImageBackground, Dimensions, Image, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
 import {
     Avatar,
@@ -6,20 +6,19 @@ import {
     Caption,
     TouchableRipple,
 } from 'react-native-paper'
+import axiosClient from "../../api/client"
+import SignInScreen from "./SignInScreen"
 
 import COLORS from '../../consts/colors'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-
-import SignInScreen from "./SignInScreen"
-import { useSelector } from "react-redux"
-import axiosClient from "../../api/client"
+import { useLogin } from '../../context/LoginProvider'
+// import Test from './test'
 
 const imgWidth = Dimensions.get('screen').width * 0.33333
 
 const AccountScreen = ({ navigation }) => {
 
-    const user = useSelector(state => state.account)
-
+    const { logout } = useLogin()
 
 
     return (
@@ -38,7 +37,7 @@ const AccountScreen = ({ navigation }) => {
                             <Title style={[styles.title, {
                                 marginTop: 15,
                                 marginBottom: 5,
-                            }]}>{user.fullname}</Title>
+                            }]}>Anh Thư</Title>
                             <Caption style={styles.caption}>anhthu</Caption>
                         </View>
                     </View>
@@ -51,11 +50,11 @@ const AccountScreen = ({ navigation }) => {
                     </View>
                     <View style={styles.row}>
                         <Icon name="phone" color="#777777" size={20} />
-                        <Text style={{ color: "#777777", marginLeft: 20 }}>{user.phone}</Text>
+                        <Text style={{ color: "#777777", marginLeft: 20 }}>+840000000</Text>
                     </View>
                     <View style={styles.row}>
                         <Icon name="email" color="#777777" size={20} />
-                        <Text style={{ color: "#777777", marginLeft: 20 }}>{user.email}</Text>
+                        <Text style={{ color: "#777777", marginLeft: 20 }}>anhthu@gmail.com</Text>
                     </View>
                 </View>
 
@@ -91,7 +90,7 @@ const AccountScreen = ({ navigation }) => {
                             <Text style={styles.menuItemText}>Support</Text>
                         </View>
                     </TouchableRipple>
-                    <TouchableRipple onPress={() =>{}}>
+                    <TouchableRipple onPress={() => {logout}}>
                         <View style={styles.menuItem}>
                             <Icon name="settings" color="#FF6347" size={25} />
                             <Text style={styles.menuItemText}>Đăng xuất</Text>

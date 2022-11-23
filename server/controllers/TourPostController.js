@@ -271,11 +271,11 @@ exports.relatedPosts = async (req, res) => {
     if (!isValidObjectId(postId))
         return res.status(401).json({ error: 'Yêu cầu không hợp lệ' })
 
-    const post = await Post.findById(postId)
+    const post = await TourPost.findById(postId)
     if (!post)
         return res.status(404).json({ error: 'Không tìm thấy bài đăng' })
 
-    const relatedPosts = await Post.find({
+    const relatedPosts = await TourPost.find({
         tags: { $in: [...post.tags] },
         _id: { $ne: post._id }
     })

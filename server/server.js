@@ -24,7 +24,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({error: err.message})
 })
 
-app.use(userRouter)
+app.use('/user',userRouter)
 app.use('/post',postRouter)
 app.use('/tour-post', tourPost)
 // app.use('/test',test)

@@ -9,15 +9,10 @@ import CustomInput from '../../consts/CustomInput'
 import SignUpScreen from '../screens/SignUpScreen'
 import { isValidEmail, isValidObjectField, updateError } from '../../utils/methods'
 import client from '../../api/client'
-// import { useLogin } from '../../context/LoginProvider'
-import { useDispatch } from 'react-redux'
-import { account } from '../../store/AccountSlice'
-import { Login } from '../../store/action'
+import { useLogin } from '../../context/LoginProvider'
 
 
 const SignInScreen = () => {
-
-    const dispatch = useDispatch()
 
     const [userInfo, setUserInfo] = useState({
         email: '',
@@ -27,7 +22,7 @@ const SignInScreen = () => {
     const { email, password } = userInfo
 
     const [error, setError] = useState('')
-    // const { setIsLoggedIn, setProfile } = useLogin()
+    const { setIsLoggedIn, setProfile } = useLogin()
 
     const handleOnChangeText = (value, fieldName) => {
         setUserInfo({ ...userInfo, [fieldName]: value })
@@ -48,21 +43,20 @@ const SignInScreen = () => {
     }
 
     const onSignInPress = async () => {
-        if (isValidForm()) {
-            try {
-                const res = await client.post('/sign-in', { ...userInfo })
+        // if (isValidForm()) {
+        //     try {
+        //         const res = await client.post('/sign-in', { ...userInfo })
 
-                if (res.data.success) {
-                    setUserInfo({ email: '', password: '' })
-                    // setIsLoggedIn(true)
-                    // dispatch(account(res.data))
-                    dispatch(true)
-                }
+        //         if (res.data.success) {
+        //             setUserInfo({ email: '', password: '' })
+        //             setIsLoggedIn(true)
+        //         }
 
-            } catch (err) {
-                console.log('Error: ', err.message)
-            }
-        }  
+        //     } catch (err) {
+        //         console.log('Error: ', err.message)
+        //     }
+        // }  
+        setIsLoggedIn(true)
     }
 
     const onForgotPassword = () => {

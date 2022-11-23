@@ -3,7 +3,7 @@ import e from "cors";
 
 // Cấu hình chung cho axios
 const axiosClient = axios.create({
-    baseURL: 'http://192.168.31.120:8000/',
+    baseURL: 'http://192.168.88.107:8000/',
     headers: {
         'content-type': 'application/json'
     }

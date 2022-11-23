@@ -1,3 +1,4 @@
+const { isValidObjectId } = require('mongoose')
 const User = require('../models/user')
 // const jwt = require('jsonwebtoken')
 
@@ -20,14 +21,23 @@ exports.createUser = async (req, res) => {
     res.json(user)
 }
 
-// Get latest posts
+// Get user
 exports.getUser = async (req, res) => {
     const { id } = req.params
 
     const user = await User.findById(id)
+    if (!isValidObjectId(user))
+        return res.status(404).json({ error: 'Không tìm thấy người dùng' })
 
     res.json(user)
+
 }
+
+// exports.getUsers = async (req, res) => {
+//     const user = await User.find({})
+//     res.json(user)
+
+// }
 
 exports.userSignIn = async (req, res) => {
     const { email, password } = req.body
