@@ -1,35 +1,37 @@
-import React, { useState } from 'react'
-import { Text, View, StyleSheet, TextInput } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import COLORS from './colors'
+import React, { useState } from "react";
+import { Text, View, StyleSheet, TextInput } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import COLORS from "./colors";
 
 const CustomInput = ({
     error,
     iconName,
     password,
     // onFocus = () => { },
-    ...props }) => {
-
+    ...props
+}) => {
     // const [isFocus, setIsFocus] = useState(false)
-    const [hidePassword, setHidePassword] = useState(password)
+    const [hidePassword, setHidePassword] = useState(password);
     return (
         <View>
-            <View style={[
-                styles.container,
-                // {
-                //     borderColor: error
-                //         ? COLORS.red
-                //         : isFocus
-                //             ? COLORS.dark
-                //             : COLORS.light,
-                //     alignItems: 'center'
-                // }
-            ]}>
+            <View
+                style={[
+                    styles.container,
+                    // {
+                    //     borderColor: error
+                    //         ? COLORS.red
+                    //         : isFocus
+                    //             ? COLORS.dark
+                    //             : COLORS.light,
+                    //     alignItems: 'center'
+                    // }
+                ]}
+            >
                 <Icon
                     name={iconName}
                     color={COLORS.primary}
                     size={20}
-                    style={{marginRight: 8,}}
+                    style={{ marginRight: 8 }}
                 />
                 <TextInput
                     autoCorrect={false}
@@ -47,12 +49,11 @@ const CustomInput = ({
                 {password && (
                     <Icon
                         onPress={() => {
-                            setHidePassword(!hidePassword)
+                            setHidePassword(!hidePassword);
                         }}
-                        name={hidePassword ? 'visibility' : 'visibility-off'}
+                        name={hidePassword ? "visibility" : "visibility-off"}
                         style={styles.icon}
                     />
-
                 )}
             </View>
             {error ? (
@@ -61,33 +62,33 @@ const CustomInput = ({
                 </Text>
             ) : null}
         </View>
-    )
-}
+    );
+};
 
-export default CustomInput
+export default CustomInput;
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        borderColor: '#e8e8e8',
+        flexDirection: "row",
+        backgroundColor: "white",
+        borderColor: "#e8e8e8",
         borderWidth: 1,
         borderRadius: 5,
         padding: 20,
         marginVertical: 5,
         // marginHorizontal: 10,
         // justifyContent:'center',
-        alignItems:'center',
+        alignItems: "center",
         // width: '100%'
     },
     input: {
-        width: '100%',
+        width: "100%",
         fontSize: 16,
-        color: COLORS.dark
+        color: COLORS.dark,
     },
     icon: {
         fontSize: 20,
         color: COLORS.dark,
-        right: 30
-    }
-})
+        right: 30,
+    },
+});

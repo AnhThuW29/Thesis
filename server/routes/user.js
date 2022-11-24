@@ -17,7 +17,7 @@ router.post("/create-user", validateUserSignUp, userValidation, createUser);
 
 router.post("/sign-in", validateUserSignIn, userValidation, userSignIn);
 
-router.get("/:id", getUser);
+router.get("/getID/:id", getUser);
 
 router.get("/get-all/users", async (req, res) => {
     try {
